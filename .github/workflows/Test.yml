@@ -16,8 +16,7 @@ jobs:
 
       - name: Extract Tar file
         run: |
-          tar -xzf bin/*.tar.gz -C extracted_contents  # Extract tar file to a temporary directory
-          mv extracted_contents/* source/  # Move extracted contents to the source folder
+         tar -xzf bin/*.tar.gz --strip-components=1 -C source/
 
       - name: Commit changes
         run: |
