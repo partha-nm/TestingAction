@@ -18,7 +18,7 @@ jobs:
         run: |
          mkdir temp
          tar --xzvf bin/*.tgz -C temp
-         git mv temp/* source/
+         mv -f temp/* source/
          rm -rf temp
 
       - name: Commit changes
