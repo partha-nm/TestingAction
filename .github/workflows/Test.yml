@@ -1,0 +1,14 @@
+name: Echo on Push
+
+on:
+  push:
+    branches:
+      - main # Change this to your desired branch name
+
+jobs:
+  echo-on-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo a message
+        run: echo "A push event occurred on the main branch!"
