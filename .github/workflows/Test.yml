@@ -14,10 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Extract Tgz file
+      - name: Extract tgz file
         run: |
          mkdir temp
-         tar -xzf bin/*.tgz -C temp
+         tar --xzvf bin/*.tgz -C temp
          git mv temp/* source/
          rm -rf temp
 
