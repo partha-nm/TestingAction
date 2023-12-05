@@ -1,14 +1,28 @@
-name: Echo on Push
+name: Extract and Move Tar File
 
 on:
+  # Run the workflow when a new file is uploaded to the bin folder
   push:
-    branches:
-      - main # Change this to your desired branch name
+    paths:
+      - 'bin/*.tar.gz'  # Watch for changes in the bin folder with tar.gz files
 
 jobs:
-  echo-on-push:
+  extract_and_move:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Echo a message
-        run: echo "A push event occurred on the main branch!"
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Extract Tar file
+        run: |
+          tar -xzf bin/*.tar.gz -C extracted_contents  # Extract tar file to a temporary directory
+          mv extracted_contents/* source/  # Move extracted contents to the source folder
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "partha09.com@gmail.com"
+          git config --local user.name "partha_nm"
+          git add .
+          git commit -m "Extracted and moved tar file contents"
+          git push origin main  # Push changes to the main branch
