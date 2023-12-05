@@ -17,8 +17,8 @@ jobs:
       - name: Extract tgz file
         run: |
          mkdir temp
-         tar --xzvf bin/*.tgz -C temp
-         mv -f temp/* source/
+         tar -xzf bin/*.tgz -C temp
+         git mv temp/* source/
          rm -rf temp
 
       - name: Commit changes
