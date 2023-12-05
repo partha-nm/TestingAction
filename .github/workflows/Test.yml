@@ -16,7 +16,8 @@ jobs:
 
       - name: Extract Tar file
         run: |
-         tar -xzf bin/*.tar.gz --directory=source/ --strip-components=1
+         mkdir temp
+         tar -xzf bin/*.tar.gz --directory /temp
 
       - name: Commit changes
         run: |
