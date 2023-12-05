@@ -4,7 +4,7 @@ on:
   # Run the workflow when a new file is uploaded to the bin folder
   push:
     paths:
-      - 'bin/*.tar.gz'  # Watch for changes in the bin folder with tar.gz files
+      - 'bin/*.tgz'  # Watch for changes in the bin folder with tar.gz files
 
 jobs:
   extract_and_move:
@@ -14,10 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Extract Tar file
+      - name: Extract Tgz file
         run: |
          mkdir temp
-         tar -xzf bin/*.tar.gz -C temp
+         tar -xzf bin/*.tgz -C temp
+         mv temp/* source/
+         rm -rf temp
 
       - name: Commit changes
         run: |
