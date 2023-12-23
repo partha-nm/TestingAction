@@ -14,7 +14,44 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Extract tgz file
+      - name: Extract tgz filename: Update Source Folder from Uploaded TGZ
+
+on:
+  push:
+    paths:
+      - 'binary/*.tgz'  # Trigger workflow when a .tgz file is updated in the binary folder
+
+jobs:
+  update_source_from_tgz:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Extract and Update Source Folder
+        run: |
+          for tgz_file in binary/*.tgz; do
+            folder_name=$(basename -s .tgz "$tgz_file")
+            temp_dir="temp_extracted/$folder_name"
+            mkdir -p "$temp_dir"
+            tar -xzf "$tgz_file" -C "$temp_dir" --overwrite
+
+            # Update source folder with extracted contents
+            extracted_folder="$temp_dir/$folder_name"
+            target_folder="source/$folder_name"
+            mkdir -p "$target_folder"
+            rsync -av --delete "$extracted_folder/" "$target_folder/"
+          done
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "partha09.com@gmail.com"
+          git config --local user.name "partha-nm"
+          git add source/*
+          git commit -m "Update source folder from uploaded .tgz files"
+          git push origin main
+
         run: |
          mkdir temp
          tar -xzf bin/*.tgz -C temp
